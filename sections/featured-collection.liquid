@@ -1,5 +1,6 @@
 {{ 'component-product-inventory.css' | asset_url | stylesheet_tag }}
 {{ 'featured-collection.css' | asset_url | stylesheet_tag }}
+{{ 'wow-flashsale-countdown.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'featured-collection.js' | asset_url }}" defer="defer"></script>
 {% liquid
   assign enable_slider = section.settings.enable_slider
@@ -139,25 +140,7 @@
             <h2 class="m-section__heading {{ section.settings.heading_size | default: 'h3' }}">
               <a href="{{ current_collection.url }}">{{ section.settings.heading }}</a>
             </h2>
-            <div
-              data-flashsale-countdown
-              class="m-flashsale-countdown"
-            >
-              <div class="m-flashsale-countdown__wrapper">
-                <div class="m-flashsale-countdown__box">
-                  <span class="countdown-timer-day">00</span>
-                </div>
-                <div class="m-flashsale-countdown__box">
-                  <span class="countdown-timer-hour">00</span>
-                </div>
-                <div class="m-flashsale-countdown__box">
-                  <span class="countdown-timer-minute">00</span>
-                </div>
-                <div class="m-flashsale-countdown__box">
-                  <span class="countdown-timer-sec">00</span>
-                </div>
-              </div>
-            </div>
+            {% render 'wow-flashsale-countdown' %}
           </div>
         {% else %}
           {% render 'index-section-header',

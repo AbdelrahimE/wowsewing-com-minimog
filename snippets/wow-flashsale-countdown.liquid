@@ -1,0 +1,53 @@
+{% comment %}
+  WOW Sewing localized flash-sale countdown presentation.
+
+  FoxKit and Minimog keep ownership of the deadline and update the four value
+  elements through their original countdown-timer-* classes. This snippet owns
+  only the bilingual labels, semantic structure, and bidirectional layout.
+{% endcomment %}
+
+{% liquid
+  assign locale_code = request.locale.iso_code | downcase
+  assign countdown_direction = 'ltr'
+  assign countdown_title = 'Offer ends in'
+  assign day_label = 'Day'
+  assign hour_label = 'Hour'
+  assign minute_label = 'Minute'
+  assign second_label = 'Second'
+
+  if locale_code == 'ar' or locale_code contains 'ar-'
+    assign countdown_direction = 'rtl'
+    assign countdown_title = 'ينتهي العرض خلال'
+    assign day_label = 'يوم'
+    assign hour_label = 'ساعة'
+    assign minute_label = 'دقيقة'
+    assign second_label = 'ثانية'
+  endif
+%}
+
+<div
+  class="m-flashsale-countdown wow-flashsale-countdown"
+  data-flashsale-countdown
+  dir="{{ countdown_direction }}"
+  role="timer"
+>
+  <span class="wow-flashsale-countdown__title">{{ countdown_title }}</span>
+  <div class="m-flashsale-countdown__wrapper wow-flashsale-countdown__wrapper">
+    <div class="m-flashsale-countdown__box wow-flashsale-countdown__box">
+      <bdi class="countdown-timer-day wow-flashsale-countdown__value" dir="ltr">00</bdi>
+      <span class="wow-flashsale-countdown__label">{{ day_label }}</span>
+    </div>
+    <div class="m-flashsale-countdown__box wow-flashsale-countdown__box">
+      <bdi class="countdown-timer-hour wow-flashsale-countdown__value" dir="ltr">00</bdi>
+      <span class="wow-flashsale-countdown__label">{{ hour_label }}</span>
+    </div>
+    <div class="m-flashsale-countdown__box wow-flashsale-countdown__box">
+      <bdi class="countdown-timer-minute wow-flashsale-countdown__value" dir="ltr">00</bdi>
+      <span class="wow-flashsale-countdown__label">{{ minute_label }}</span>
+    </div>
+    <div class="m-flashsale-countdown__box wow-flashsale-countdown__box">
+      <bdi class="countdown-timer-sec wow-flashsale-countdown__value" dir="ltr">00</bdi>
+      <span class="wow-flashsale-countdown__label">{{ second_label }}</span>
+    </div>
+  </div>
+</div>

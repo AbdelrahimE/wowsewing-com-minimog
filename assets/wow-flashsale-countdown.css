@@ -1,0 +1,107 @@
+.wow-flashsale-countdown {
+  --wow-flashsale-countdown-height: 70px;
+  align-items: center;
+  gap: 14px;
+  height: var(--wow-flashsale-countdown-height);
+  isolation: isolate;
+  padding: 8px 14px;
+}
+
+.wow-flashsale-countdown::before {
+  border-bottom-width: var(--wow-flashsale-countdown-height);
+}
+
+.wow-flashsale-countdown__title {
+  flex: 0 0 auto;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  max-width: 92px;
+  text-align: start;
+}
+
+.wow-flashsale-countdown__wrapper {
+  align-items: stretch;
+  direction: inherit;
+  gap: 4px;
+}
+
+.wow-flashsale-countdown__box {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 44px;
+  padding: 0 5px;
+}
+
+.wow-flashsale-countdown__box::after {
+  display: none;
+}
+
+.wow-flashsale-countdown__value {
+  direction: ltr;
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  line-height: 1;
+  unicode-bidi: isolate;
+}
+
+.wow-flashsale-countdown__label {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  margin-top: 5px;
+  opacity: 0.94;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 767px) {
+  .m-featured-collection--show-countdown .m-section__header {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .wow-flashsale-countdown {
+    border-radius: 4px;
+    gap: 8px;
+    height: auto;
+    justify-content: space-between;
+    min-height: 64px;
+    padding: 8px 10px;
+    width: 100%;
+  }
+
+  .wow-flashsale-countdown::before {
+    display: none;
+  }
+
+  .wow-flashsale-countdown__title {
+    font-size: 12px;
+    max-width: 82px;
+  }
+
+  .wow-flashsale-countdown__wrapper {
+    flex: 1 1 auto;
+    gap: 2px;
+    justify-content: space-between;
+  }
+
+  .wow-flashsale-countdown__box {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0 2px;
+  }
+
+  .wow-flashsale-countdown__value {
+    font-size: 20px;
+  }
+
+  .wow-flashsale-countdown__label {
+    font-size: 9px;
+    margin-top: 4px;
+  }
+}
