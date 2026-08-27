@@ -15,13 +15,14 @@
   function getDisplayOptions() {
     if (currencyCode === "EGP") {
       return isArabic
-        ? { symbol: "ج", symbolAfterAmount: true }
-        : { symbol: "E£", symbolAfterAmount: false };
+        ? { symbol: "ج", symbolAfterAmount: true, direction: "rtl" }
+        : { symbol: "E£", symbolAfterAmount: false, direction: "ltr" };
     }
 
     return {
       symbol: defaultCurrencySymbol,
       symbolAfterAmount: false,
+      direction: "ltr",
     };
   }
 
@@ -53,7 +54,7 @@
       : element.querySelector?.("[data-wow-sale-badge-cents]") || element;
 
     target.textContent = format(cents);
-    target.setAttribute("dir", "ltr");
+    target.setAttribute("dir", getDisplayOptions().direction);
     target.dataset.wowSaleBadgeCents = cents;
   }
 

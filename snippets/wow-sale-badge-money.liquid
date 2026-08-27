@@ -15,11 +15,13 @@
   assign compact_amount = amount | money_without_currency
   assign compact_amount = compact_amount | replace: '.00', '' | replace: ',00', ''
   assign symbol_after_amount = false
+  assign value_direction = 'ltr'
 
   if currency_iso_code == 'EGP'
     if locale_iso_code == 'ar' or locale_iso_code contains 'ar-'
       assign currency_symbol = 'ج'
       assign symbol_after_amount = true
+      assign value_direction = 'rtl'
     else
       assign currency_symbol = 'E£'
     endif
@@ -28,6 +30,6 @@
 
 <bdi
   class="wow-sale-badge-money"
-  dir="ltr"
+  dir="{{ value_direction }}"
   data-wow-sale-badge-cents="{{ amount }}"
 >{%- if symbol_after_amount -%}{{ compact_amount }}&nbsp;{{ currency_symbol }}{%- else -%}{{ currency_symbol }}{{ compact_amount }}{%- endif -%}</bdi>

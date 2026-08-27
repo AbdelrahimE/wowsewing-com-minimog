@@ -11,7 +11,8 @@ Purpose:
 - Render `Save E£150` for English EGP storefronts.
 - Use the active market currency symbol for other currencies, such as `$`.
 - Remove redundant zero decimals while preserving real fractional amounts.
-- Keep the badge direction stable inside both RTL and LTR pages.
+- Use RTL ordering for Arabic EGP values and LTR isolation for Latin currency
+  symbols, keeping the badge readable in both RTL and LTR pages.
 - Preserve the compact format when a product-card variant changes.
 
 Custom-owned files (copy these into every upgraded theme):
