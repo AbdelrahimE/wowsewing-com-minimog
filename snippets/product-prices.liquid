@@ -110,14 +110,11 @@
         assign discount = ''
         if sale_badge_type == 'percentage'
           assign discount = save_amount | times: 100.0 | divided_by: compare_at_price | round | append: '%'
-        elsif sale_badge_type == 'fixed_amount'
-          if settings.currency_code_enabled
-            assign discount = save_amount | money_with_currency
-          else
-            assign discount = save_amount | money
-          endif
         endif
       %}
+      {% if sale_badge_type == 'fixed_amount' %}
+        {% capture discount %}{% render 'wow-sale-badge-money', amount: save_amount %}{% endcapture %}
+      {% endif %}
       <div class="m-price__badge-sale" data-type="{{ sale_badge_type }}">
         <span class="m-product-tag m-product-tag--sale m-gradient m-color-{{ settings.sale_badge_color_scheme }}">
           {% unless sale_badge_type == 'text' %}

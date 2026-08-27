@@ -253,7 +253,11 @@ if (!customElements.get("pcard-swatch")) {
         const saved = this.domNodes.saleBadge.querySelector('.m-currency--saved');
         discount = Math.round(discount);
         if (saved) {
-          saved.innerHTML = formatMoney(discount, moneyFormat);
+          if (window.WowSaleBadgeMoney) {
+            window.WowSaleBadgeMoney.update(saved, discount);
+          } else {
+            saved.innerHTML = formatMoney(discount, moneyFormat);
+          }
         }
       }
     }

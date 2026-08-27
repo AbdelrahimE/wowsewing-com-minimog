@@ -1,0 +1,33 @@
+{%- comment -%}
+  WOW Sewing customization: compact, locale-aware money for sale-saving badges.
+
+  Keep this logic isolated from the vendor theme so future Minimog updates can
+  be merged with a small, well-defined integration surface.
+
+  Required parameter:
+  - amount: Money value in Shopify's currency subunit (for example, 15000).
+{%- endcomment -%}
+
+{%- liquid
+  assign currency_iso_code = localization.country.currency.iso_code | default: cart.currency.iso_code | default: shop.currency
+  assign currency_symbol = localization.country.currency.symbol | default: cart.currency.symbol | default: currency_iso_code
+  assign locale_iso_code = request.locale.iso_code | downcase
+  assign compact_amount = amount | money_without_currency
+  assign compact_amount = compact_amount | replace: '.00', '' | replace: ',00', ''
+  assign symbol_after_amount = false
+
+  if currency_iso_code == 'EGP'
+    if locale_iso_code == 'ar' or locale_iso_code contains 'ar-'
+      assign currency_symbol = 'ج'
+      assign symbol_after_amount = true
+    else
+      assign currency_symbol = 'E£'
+    endif
+  endif
+-%}
+
+<bdi
+  class="wow-sale-badge-money"
+  dir="ltr"
+  data-wow-sale-badge-cents="{{ amount }}"
+>{%- if symbol_after_amount -%}{{ compact_amount }}&nbsp;{{ currency_symbol }}{%- else -%}{{ currency_symbol }}{{ compact_amount }}{%- endif -%}</bdi>

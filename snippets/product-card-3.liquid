@@ -325,13 +325,7 @@
           {%- elsif on_sale_badge == 'show_percentage' -%}
             {{ discount | append: '%' | prepend: '-' }}
           {% elsif on_sale_badge == 'show_fixed_amount' %}
-            {% liquid
-              if settings.currency_code_enabled
-                assign discount_amount = discount_amount | money_with_currency
-              else
-                assign discount_amount = discount_amount | money
-              endif
-            %}
+            {% capture discount_amount %}{% render 'wow-sale-badge-money', amount: discount_amount %}{% endcapture %}
             {% render 'new-locale', key: 'products.product.save_html', param: '{{ amount }}', value: discount_amount %}
           {%- endif -%}
         </span>
