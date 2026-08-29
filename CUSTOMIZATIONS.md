@@ -169,3 +169,49 @@ Upgrade and QA workflow:
    related product links, keyboard focus, load-more batches, optional load-less,
    multiple section instances, and Theme Editor block selection.
 7. Confirm the published theme is unchanged before considering publication.
+
+## Product purchase assurances block
+
+Purpose:
+
+- Replace the single-image product trust badge with four concise purchase
+  assurances in one row: secure payment, cash on delivery, fast delivery, and
+  guaranteed returns and exchanges.
+- Keep all four items in one responsive grid row on desktop and mobile while
+  reducing icon and text sizes at narrow widths.
+- Use consistent inline SVG icons instead of platform-dependent emoji and
+  inherit the product section's RTL/LTR direction and theme color tokens.
+- Expose the four labels as translatable text settings in the Theme Editor.
+
+Custom-owned files (copy these into every upgraded theme):
+
+- `snippets/wow-product-assurances.liquid`
+- `assets/wow-product-assurances.css`
+- `CUSTOMIZATIONS.md`
+
+Small integration points to reapply or merge:
+
+- `sections/main-product.liquid`: defines the `wow_assurances` block and its
+  merchant-editable settings.
+- `snippets/main-product-blocks.liquid`: renders the isolated snippet for the
+  `wow_assurances` block type.
+
+Theme Editor setup:
+
+1. In the target draft's default product template, remove the old **Trust
+   badge** block.
+2. Add **WOW purchase assurances** in the same position beneath the buy
+   buttons and above shipping information.
+3. Translate the four text settings with Shopify Translate & Adapt after the
+   source wording is approved.
+
+Upgrade and QA workflow:
+
+1. Preserve the two custom-owned files and reapply the two small integration
+   points after merging a new Minimog version.
+2. Run Theme Check and confirm the Shopify code editor reports no Liquid or
+   schema problems.
+3. Test Arabic RTL and English LTR on desktop and at 320, 360, 390, and 430 px.
+4. Confirm all four items remain in one row, labels wrap without overflow, and
+   icon colors retain sufficient contrast.
+5. Confirm the active theme remains unchanged until the draft passes final QA.

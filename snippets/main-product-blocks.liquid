@@ -793,6 +793,8 @@
             {{ block.settings.custom_liquid }}
           </div>
         {% endif %}
+      {%- when 'wow_assurances' -%}
+        {% render 'wow-product-assurances', block: block %}
       {%- when 'trust_badge' -%}
         {% if block.settings.trust_badges_image != blank %}
           {% assign position = block.settings.position %}

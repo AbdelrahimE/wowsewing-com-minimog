@@ -1,0 +1,78 @@
+.wow-product-assurances {
+  display: grid;
+  grid-template-columns: repeat(var(--wow-assurances-count, 4), minmax(0, 1fr));
+  gap: clamp(4px, 1vw, 12px);
+  width: 100%;
+  margin: 0;
+  padding: 14px 10px;
+  border: 1px solid rgb(var(--color-border));
+  border-radius: var(--medium-blocks-radius, 6px);
+  color: rgb(var(--color-foreground));
+  list-style: none;
+}
+
+.wow-product-assurances--with-background {
+  background: rgb(var(--color-background-secondary));
+}
+
+.wow-product-assurances__item {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  text-align: center;
+}
+
+.wow-product-assurances__icon {
+  display: inline-flex;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+  align-items: center;
+  justify-content: center;
+  color: var(--wow-assurances-icon-color, currentColor);
+}
+
+.wow-product-assurances__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.wow-product-assurances__text {
+  display: block;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+@media screen and (max-width: 767px) {
+  .wow-product-assurances {
+    gap: 4px;
+    padding: 12px 4px;
+  }
+
+  .wow-product-assurances__item {
+    gap: 5px;
+  }
+
+  .wow-product-assurances__icon {
+    width: 21px;
+    height: 21px;
+    flex-basis: 21px;
+  }
+
+  .wow-product-assurances__text {
+    font-size: 10.5px;
+    line-height: 1.25;
+  }
+}
