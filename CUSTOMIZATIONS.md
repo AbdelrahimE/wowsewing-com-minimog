@@ -110,6 +110,11 @@ Purpose:
 - Switch operational labels between Arabic and English from the active Shopify
   locale while inheriting RTL/LTR direction and the theme's color schemes and
   typography.
+- Reuse Minimog's native `m-section__subheading`, `m-section__heading`, and
+  `m-section__description` classes so the section header follows the same font,
+  weight, sizing scale, and RTL-aware alignment as core theme sections.
+- Keep the review date aligned to the page's reading direction while isolating
+  the numeric date itself as LTR, and render rating stars with compact spacing.
 
 Custom-owned files (copy these into every upgraded theme):
 
@@ -157,6 +162,9 @@ Upgrade and QA workflow:
    for `sections/wow-customer-reviews.liquid`.
 4. Upload to an unpublished draft theme only.
 5. Test Arabic RTL and English LTR at 360, 390, 430, 768, 1024, and 1440 px.
+   Confirm dates align right in Arabic and left in English without reversing
+   their digits, and compare the section header with a native Minimog header at
+   the same configured heading size.
 6. Verify natural and cover images, missing optional fields, ratings 1–5,
    related product links, keyboard focus, load-more batches, optional load-less,
    multiple section instances, and Theme Editor block selection.

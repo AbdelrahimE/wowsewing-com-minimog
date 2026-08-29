@@ -13,19 +13,13 @@
 }
 
 .wow-reviews__header {
-  margin-block-end: clamp(24px, 4vw, 44px);
   text-align: start;
 }
 
 .wow-reviews__header--center {
-  max-width: 760px;
-  margin-inline: auto;
   text-align: center;
 }
 
-.wow-reviews__eyebrow,
-.wow-reviews__heading,
-.wow-reviews__description,
 .wow-reviews__summary,
 .wow-reviews__date,
 .wow-reviews__quote,
@@ -33,40 +27,8 @@
   margin: 0;
 }
 
-.wow-reviews__eyebrow {
-  color: rgb(var(--color-foreground-secondary));
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-.wow-reviews__heading {
-  color: rgb(var(--color-heading));
-  font-family: var(--font-stack-header);
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
-  font-style: var(--font-style-header);
-  font-weight: var(--font-weight-header);
-  line-height: 1.2;
-}
-
-.wow-reviews__eyebrow + .wow-reviews__heading,
-.wow-reviews__heading + .wow-reviews__description,
-.wow-reviews__eyebrow + .wow-reviews__description,
-.wow-reviews__description + .wow-reviews__summary,
-.wow-reviews__heading + .wow-reviews__summary,
-.wow-reviews__eyebrow + .wow-reviews__summary {
-  margin-block-start: 10px;
-}
-
-.wow-reviews__description {
-  color: rgb(var(--color-foreground-secondary));
-  line-height: 1.7;
-}
-
-.wow-reviews__description > * {
-  margin-block: 0;
+.wow-reviews__header .wow-reviews__summary {
+  margin-block-start: 16px;
 }
 
 .wow-reviews__summary {
@@ -213,12 +175,13 @@
   color: rgb(var(--color-foreground-secondary));
   font-size: 0.75rem;
   line-height: 1.4;
+  text-align: start;
 }
 
 .wow-reviews__stars {
   display: inline-flex;
   align-items: center;
-  gap: 2px;
+  gap: 0;
   margin-block-start: 14px;
   color: rgba(var(--color-foreground), 0.2);
   vertical-align: middle;
