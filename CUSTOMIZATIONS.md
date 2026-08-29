@@ -50,7 +50,7 @@ Purpose:
 
 - Keep FoxKit and Minimog responsible for the real offer deadline and live
   numeric updates.
-- Render an explicit `ينتهي العرض خلال` prompt with `يوم`, `ساعة`, `دقيقة`,
+- Render an explicit `ينتهي العرض بعد` prompt with `يوم`, `ساعة`, `دقيقة`,
   and `ثانية` unit captions on Arabic storefronts.
 - Render `Offer ends in` with `Day`, `Hour`, `Minute`, and `Second` captions on
   English storefronts.
