@@ -1,0 +1,439 @@
+.wow-reviews,
+.wow-reviews * {
+  box-sizing: border-box;
+}
+
+.wow-reviews {
+  color: rgb(var(--color-foreground));
+  background: var(--gradient-background, rgb(var(--color-background)));
+}
+
+.wow-reviews__inner {
+  padding-block: var(--wow-reviews-padding-top) var(--wow-reviews-padding-bottom);
+}
+
+.wow-reviews__header {
+  margin-block-end: clamp(24px, 4vw, 44px);
+  text-align: start;
+}
+
+.wow-reviews__header--center {
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.wow-reviews__eyebrow,
+.wow-reviews__heading,
+.wow-reviews__description,
+.wow-reviews__summary,
+.wow-reviews__date,
+.wow-reviews__quote,
+.wow-reviews__customer-name {
+  margin: 0;
+}
+
+.wow-reviews__eyebrow {
+  color: rgb(var(--color-foreground-secondary));
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.wow-reviews__heading {
+  color: rgb(var(--color-heading));
+  font-family: var(--font-stack-header);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-style: var(--font-style-header);
+  font-weight: var(--font-weight-header);
+  line-height: 1.2;
+}
+
+.wow-reviews__eyebrow + .wow-reviews__heading,
+.wow-reviews__heading + .wow-reviews__description,
+.wow-reviews__eyebrow + .wow-reviews__description,
+.wow-reviews__description + .wow-reviews__summary,
+.wow-reviews__heading + .wow-reviews__summary,
+.wow-reviews__eyebrow + .wow-reviews__summary {
+  margin-block-start: 10px;
+}
+
+.wow-reviews__description {
+  color: rgb(var(--color-foreground-secondary));
+  line-height: 1.7;
+}
+
+.wow-reviews__description > * {
+  margin-block: 0;
+}
+
+.wow-reviews__summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+}
+
+.wow-reviews__header--center .wow-reviews__summary {
+  justify-content: center;
+}
+
+.wow-reviews__summary-average {
+  color: rgb(var(--color-heading));
+  font-weight: 600;
+}
+
+.wow-reviews__summary-count {
+  color: rgb(var(--color-foreground-secondary));
+  font-size: 0.875rem;
+}
+
+.wow-reviews__masonry {
+  column-count: var(--wow-reviews-columns-mobile);
+  column-gap: var(--wow-reviews-column-gap);
+  column-fill: balance;
+  width: 100%;
+}
+
+.wow-reviews__card {
+  display: inline-block;
+  width: 100%;
+  margin-block: 0 var(--wow-reviews-card-gap);
+  overflow: hidden;
+  break-inside: avoid;
+  border: 1px solid rgba(var(--color-border), 0.78);
+  border-radius: var(--wow-reviews-card-radius);
+  color: rgb(var(--color-foreground));
+  background: var(--gradient-background, rgb(var(--color-background)));
+  box-shadow: 0 8px 24px rgba(var(--color-foreground), 0.055);
+  vertical-align: top;
+}
+
+.wow-reviews__media {
+  width: 100%;
+  overflow: hidden;
+  background: rgb(var(--color-background-secondary));
+}
+
+.wow-reviews__media-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.wow-reviews__media--cover {
+  aspect-ratio: 4 / 3;
+}
+
+.wow-reviews__media--cover .wow-reviews__media-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wow-reviews__card-body {
+  padding: clamp(16px, 2vw, 22px);
+  text-align: start;
+}
+
+.wow-reviews__customer {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.wow-reviews__avatar {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: rgb(var(--color-background-secondary));
+}
+
+.wow-reviews__avatar-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wow-reviews__customer-details {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 9px;
+  min-width: 0;
+}
+
+.wow-reviews__customer-name {
+  color: rgb(var(--color-heading));
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.wow-reviews__verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: rgb(var(--color-foreground-secondary));
+  font-size: 0.75rem;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.wow-reviews__verified svg {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.wow-reviews__verified circle {
+  fill: currentColor;
+  stroke: none;
+}
+
+.wow-reviews__verified path {
+  fill: none;
+  stroke: rgb(var(--color-background));
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.wow-reviews__date {
+  margin-block-start: 8px;
+  color: rgb(var(--color-foreground-secondary));
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.wow-reviews__stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-block-start: 14px;
+  color: rgba(var(--color-foreground), 0.2);
+  vertical-align: middle;
+}
+
+.wow-reviews__stars--summary {
+  margin-block-start: 0;
+}
+
+.wow-reviews__star {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+}
+
+.wow-reviews__star svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.wow-reviews__star--active {
+  color: var(--wow-reviews-star-color);
+}
+
+.wow-reviews__quote {
+  margin-block-start: 12px;
+  padding: 0;
+  border: 0;
+  color: rgb(var(--color-foreground));
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-style: normal;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.wow-reviews__product {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-block-start: 18px;
+  padding-block-start: 15px;
+  border-block-start: 1px solid rgba(var(--color-border), 0.68);
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+}
+
+.wow-reviews__product-media {
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  border-radius: max(4px, calc(var(--wow-reviews-card-radius) / 2));
+  background: rgb(var(--color-background-secondary));
+}
+
+.wow-reviews__product-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wow-reviews__product-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: rgb(var(--color-heading));
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.wow-reviews__product-arrow {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
+[dir='rtl'] .wow-reviews__product-arrow {
+  transform: scaleX(-1);
+}
+
+.wow-reviews__product:hover .wow-reviews__product-name {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.wow-reviews__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-block-start: clamp(8px, 2vw, 20px);
+}
+
+.wow-reviews__actions[hidden],
+.wow-reviews__button[hidden],
+.wow-reviews__card[hidden] {
+  display: none;
+}
+
+.wow-reviews__button {
+  min-width: 150px;
+  min-height: 46px;
+  padding: 11px 24px;
+  border: 1px solid rgb(var(--color-button));
+  border-radius: var(--btn-border-radius, 4px);
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  cursor: pointer;
+  transition: color var(--m-duration-default, 0.25s) ease,
+    background-color var(--m-duration-default, 0.25s) ease,
+    border-color var(--m-duration-default, 0.25s) ease,
+    box-shadow var(--m-duration-default, 0.25s) ease;
+}
+
+.wow-reviews__button--primary {
+  color: rgb(var(--color-button-text));
+  background: rgb(var(--color-button));
+}
+
+.wow-reviews__button--primary:hover {
+  border-color: rgb(var(--color-button-hover));
+  color: rgb(var(--color-button-text-hover));
+  background: rgb(var(--color-button-hover));
+}
+
+.wow-reviews__button--secondary {
+  color: rgb(var(--color-outline-button));
+  background: transparent;
+}
+
+.wow-reviews__button--secondary:hover {
+  color: rgb(var(--color-button-text-hover));
+  background: rgb(var(--color-button-hover));
+  border-color: rgb(var(--color-button-hover));
+}
+
+.wow-reviews__button:focus-visible,
+.wow-reviews__product:focus-visible {
+  outline: 2px solid rgb(var(--color-foreground));
+  outline-offset: 3px;
+}
+
+.wow-reviews__empty {
+  max-width: 680px;
+  margin-inline: auto;
+  padding: 18px 20px;
+  border: 1px dashed rgb(var(--color-border));
+  border-radius: var(--wow-reviews-card-radius);
+  color: rgb(var(--color-foreground-secondary));
+  text-align: center;
+}
+
+.wow-reviews__card--revealed {
+  animation: wow-reviews-reveal 280ms ease both;
+}
+
+@keyframes wow-reviews-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media screen and (min-width: 640px) {
+  .wow-reviews__masonry {
+    column-count: var(--wow-reviews-columns-tablet);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .wow-reviews__masonry {
+    column-count: var(--wow-reviews-columns-desktop);
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .wow-reviews__masonry {
+    column-gap: min(var(--wow-reviews-column-gap), 12px);
+  }
+
+  .wow-reviews__card {
+    margin-block-end: min(var(--wow-reviews-card-gap), 12px);
+  }
+
+  .wow-reviews__card-body {
+    padding: 16px;
+  }
+
+  .wow-reviews__button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wow-reviews__card--revealed {
+    animation: none;
+  }
+
+  .wow-reviews__button {
+    transition: none;
+  }
+}

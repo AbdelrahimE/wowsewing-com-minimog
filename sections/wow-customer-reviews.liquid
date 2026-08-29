@@ -1,0 +1,640 @@
+{{ 'wow-customer-reviews.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'wow-customer-reviews.js' | asset_url }}" defer="defer"></script>
+
+{% liquid
+  assign locale_root = request.locale.iso_code | downcase | split: '-' | first
+  assign is_arabic = false
+  if locale_root == 'ar'
+    assign is_arabic = true
+  endif
+
+  assign container = section.settings.container
+  if container == 'w-full'
+    assign container = 'container-full'
+  endif
+
+  assign card_color_scheme = section.settings.card_color_scheme
+  if card_color_scheme == blank
+    assign card_color_scheme = section.settings.color_scheme
+  endif
+
+  if is_arabic
+    assign verified_label = section.settings.verified_label_ar | default: 'مشتري موثّق'
+    assign load_more_label = section.settings.load_more_text_ar | default: 'عرض المزيد'
+    assign load_less_label = section.settings.load_less_text_ar | default: 'عرض أقل'
+    assign section_accessible_label = 'مراجعات العملاء'
+    assign review_image_fallback_alt = 'صورة مرفقة بالمراجعة'
+    assign avatar_fallback_alt = 'صورة العميل'
+    assign rating_suffix = 'من 5'
+    assign summary_count_prefix = 'بناءً على'
+    assign summary_count_suffix = 'تقييم'
+    assign empty_state_text = 'أضف مراجعات من إعدادات هذا القسم.'
+    assign empty_customer_name = 'اسم العميل'
+    assign empty_review_text = 'اكتب نص المراجعة هنا. لن تظهر هذه البطاقة الفارغة للزوار.'
+  else
+    assign verified_label = section.settings.verified_label_en | default: 'Verified buyer'
+    assign load_more_label = section.settings.load_more_text_en | default: 'Load more'
+    assign load_less_label = section.settings.load_less_text_en | default: 'Show less'
+    assign section_accessible_label = 'Customer reviews'
+    assign review_image_fallback_alt = 'Image attached to the review'
+    assign avatar_fallback_alt = 'Customer photo'
+    assign rating_suffix = 'out of 5'
+    assign summary_count_prefix = 'Based on'
+    assign summary_count_suffix = 'reviews'
+    assign empty_state_text = 'Add reviews from this section’s settings.'
+    assign empty_customer_name = 'Customer name'
+    assign empty_review_text = 'Enter the review here. This empty card is not shown to storefront visitors.'
+  endif
+
+  assign review_count = 0
+  for block in section.blocks
+    assign has_review_content = false
+    if block.settings.customer_name != blank or block.settings.review_text != blank or block.settings.customer_avatar != blank or block.settings.review_image != blank or block.settings.review_date != blank or block.settings.product != blank
+      assign has_review_content = true
+    endif
+    if has_review_content or request.design_mode
+      assign review_count = review_count | plus: 1
+    endif
+  endfor
+
+  assign summary_average = section.settings.average_rating
+  assign summary_stars = summary_average | round
+  capture review_image_sizes
+    echo '(min-width: 1024px) calc((100vw - 120px) / '
+    echo section.settings.columns_desktop
+    echo '), (min-width: 640px) calc((100vw - 64px) / '
+    echo section.settings.columns_tablet
+    echo '), calc((100vw - 40px) / '
+    echo section.settings.columns_mobile
+    echo ')'
+  endcapture
+%}
+
+{% if review_count > 0 or request.design_mode %}
+  <section
+    id="wow-reviews-{{ section.id }}"
+    class="wow-reviews m-gradient m-color-{{ section.settings.color_scheme }}"
+    style="
+      --wow-reviews-columns-desktop: {{ section.settings.columns_desktop }};
+      --wow-reviews-columns-tablet: {{ section.settings.columns_tablet }};
+      --wow-reviews-columns-mobile: {{ section.settings.columns_mobile }};
+      --wow-reviews-column-gap: {{ section.settings.column_gap }}px;
+      --wow-reviews-card-gap: {{ section.settings.card_spacing }}px;
+      --wow-reviews-card-radius: {{ section.settings.card_radius }}px;
+      --wow-reviews-padding-top: {{ section.settings.padding_top }}px;
+      --wow-reviews-padding-bottom: {{ section.settings.padding_bottom }}px;
+      --wow-reviews-star-color: {{ section.settings.star_color }};
+    "
+    {% if section.settings.heading != blank %}
+      aria-labelledby="wow-reviews-heading-{{ section.id }}"
+    {% else %}
+      aria-label="{{ section_accessible_label | escape }}"
+    {% endif %}
+  >
+    <div class="{{ container }}">
+      <div class="wow-reviews__inner">
+        {% if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.description != blank or section.settings.show_summary %}
+          <header class="wow-reviews__header wow-reviews__header--{{ section.settings.header_alignment }}">
+            {% if section.settings.eyebrow != blank %}
+              <p class="wow-reviews__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+            {% endif %}
+
+            {% if section.settings.heading != blank %}
+              <h2 id="wow-reviews-heading-{{ section.id }}" class="wow-reviews__heading">
+                {{ section.settings.heading | escape }}
+              </h2>
+            {% endif %}
+
+            {% if section.settings.description != blank %}
+              <div class="wow-reviews__description rte">{{ section.settings.description }}</div>
+            {% endif %}
+
+            {% if section.settings.show_summary %}
+              <div class="wow-reviews__summary">
+                <div
+                  class="wow-reviews__stars wow-reviews__stars--summary"
+                  role="img"
+                  aria-label="{{ summary_average }} {{ rating_suffix }}"
+                  dir="ltr"
+                >
+                  {% for star_index in (1..5) %}
+                    <span class="wow-reviews__star{% if star_index <= summary_stars %} wow-reviews__star--active{% endif %}" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                        <path d="M12 2.75l2.78 5.63 6.22.9-4.5 4.39 1.06 6.2L12 16.94l-5.56 2.93 1.06-6.2L3 9.28l6.22-.9L12 2.75z"/>
+                      </svg>
+                    </span>
+                  {% endfor %}
+                </div>
+                <strong class="wow-reviews__summary-average">{{ summary_average }} {{ rating_suffix }}</strong>
+                {% if section.settings.reviews_count != blank %}
+                  <span class="wow-reviews__summary-count">
+                    {{ summary_count_prefix }} {{ section.settings.reviews_count | escape }} {{ summary_count_suffix }}
+                  </span>
+                {% endif %}
+              </div>
+            {% endif %}
+          </header>
+        {% endif %}
+
+        {% if review_count > 0 %}
+          <wow-customer-reviews
+            class="wow-reviews__component"
+            data-initial-count="{{ section.settings.initial_count }}"
+            data-per-load="{{ section.settings.per_load }}"
+          >
+            <div id="wow-reviews-grid-{{ section.id }}" class="wow-reviews__masonry" data-wow-reviews-grid>
+              {% for block in section.blocks %}
+                {% liquid
+                  assign has_review_content = false
+                  if block.settings.customer_name != blank or block.settings.review_text != blank or block.settings.customer_avatar != blank or block.settings.review_image != blank or block.settings.review_date != blank or block.settings.product != blank
+                    assign has_review_content = true
+                  endif
+                %}
+
+                {% if has_review_content or request.design_mode %}
+                  {% liquid
+                    assign customer_name = block.settings.customer_name
+                    assign review_text = block.settings.review_text
+                    if request.design_mode and has_review_content == false
+                      assign customer_name = empty_customer_name
+                      assign review_text = empty_review_text
+                    endif
+
+                    assign rating = block.settings.rating
+                    assign rating_aria_label = rating | append: ' ' | append: rating_suffix
+                    assign review_image_alt = block.settings.review_image.alt | default: customer_name | default: review_image_fallback_alt
+                    assign avatar_alt = block.settings.customer_avatar.alt | default: customer_name | default: avatar_fallback_alt
+                    assign selected_product = block.settings.product
+                  %}
+
+                  <article
+                    class="wow-reviews__card m-gradient m-color-{{ card_color_scheme }}"
+                    data-wow-review-card
+                    {{ block.shopify_attributes }}
+                  >
+                    {% if block.settings.review_image != blank %}
+                      <div class="wow-reviews__media wow-reviews__media--{{ section.settings.image_fit }}">
+                        {{
+                          block.settings.review_image
+                          | image_url: width: 1200
+                          | image_tag:
+                            widths: '360, 540, 720, 900, 1200',
+                            sizes: review_image_sizes,
+                            loading: 'lazy',
+                            class: 'wow-reviews__media-image',
+                            alt: review_image_alt
+                        }}
+                      </div>
+                    {% endif %}
+
+                    <div class="wow-reviews__card-body">
+                      {% if customer_name != blank or block.settings.customer_avatar != blank or block.settings.verified %}
+                        <div class="wow-reviews__customer">
+                          {% if block.settings.customer_avatar != blank %}
+                            <div class="wow-reviews__avatar">
+                              {{
+                                block.settings.customer_avatar
+                                | image_url: width: 128
+                                | image_tag:
+                                  widths: '64, 96, 128',
+                                  sizes: '44px',
+                                  loading: 'lazy',
+                                  class: 'wow-reviews__avatar-image',
+                                  alt: avatar_alt
+                              }}
+                            </div>
+                          {% endif %}
+
+                          <div class="wow-reviews__customer-details">
+                            {% if customer_name != blank %}
+                              <h3 class="wow-reviews__customer-name" dir="auto">{{ customer_name | escape }}</h3>
+                            {% endif %}
+
+                            {% if block.settings.verified %}
+                              <span class="wow-reviews__verified">
+                                <svg viewBox="0 0 20 20" focusable="false" aria-hidden="true">
+                                  <circle cx="10" cy="10" r="9"></circle>
+                                  <path d="M6.2 10.1l2.35 2.35 5.25-5.25"></path>
+                                </svg>
+                                <span>{{ verified_label | escape }}</span>
+                              </span>
+                            {% endif %}
+                          </div>
+                        </div>
+                      {% endif %}
+
+                      {% if section.settings.show_date and block.settings.review_date != blank %}
+                        <p class="wow-reviews__date" dir="auto">{{ block.settings.review_date | escape }}</p>
+                      {% endif %}
+
+                      <div class="wow-reviews__stars" role="img" aria-label="{{ rating_aria_label | escape }}" dir="ltr">
+                        {% for star_index in (1..5) %}
+                          <span class="wow-reviews__star{% if star_index <= rating %} wow-reviews__star--active{% endif %}" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                              <path d="M12 2.75l2.78 5.63 6.22.9-4.5 4.39 1.06 6.2L12 16.94l-5.56 2.93 1.06-6.2L3 9.28l6.22-.9L12 2.75z"/>
+                            </svg>
+                          </span>
+                        {% endfor %}
+                      </div>
+
+                      {% if review_text != blank %}
+                        <blockquote class="wow-reviews__quote" dir="auto">
+                          {{ review_text | escape | newline_to_br }}
+                        </blockquote>
+                      {% endif %}
+
+                      {% if selected_product != blank %}
+                        <a class="wow-reviews__product" href="{{ selected_product.url }}">
+                          {% if selected_product.featured_image != blank %}
+                            <span class="wow-reviews__product-media">
+                              {{
+                                selected_product.featured_image
+                                | image_url: width: 180
+                                | image_tag:
+                                  widths: '90, 120, 180',
+                                  sizes: '56px',
+                                  loading: 'lazy',
+                                  class: 'wow-reviews__product-image',
+                                  alt: selected_product.title
+                              }}
+                            </span>
+                          {% endif %}
+                          <span class="wow-reviews__product-name" dir="auto">{{ selected_product.title | escape }}</span>
+                          <svg class="wow-reviews__product-arrow" viewBox="0 0 20 20" focusable="false" aria-hidden="true">
+                            <path d="M7.5 4.5l5.5 5.5-5.5 5.5"></path>
+                          </svg>
+                        </a>
+                      {% endif %}
+                    </div>
+                  </article>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            <div class="wow-reviews__actions" data-wow-reviews-actions hidden>
+              <button
+                type="button"
+                class="wow-reviews__button wow-reviews__button--primary"
+                data-wow-reviews-more
+                aria-controls="wow-reviews-grid-{{ section.id }}"
+                aria-expanded="false"
+                hidden
+              >
+                {{ load_more_label | escape }}
+              </button>
+
+              {% if section.settings.show_load_less %}
+                <button
+                  type="button"
+                  class="wow-reviews__button wow-reviews__button--secondary"
+                  data-wow-reviews-less
+                  aria-controls="wow-reviews-grid-{{ section.id }}"
+                  hidden
+                >
+                  {{ load_less_label | escape }}
+                </button>
+              {% endif %}
+            </div>
+          </wow-customer-reviews>
+        {% elsif request.design_mode %}
+          <div class="wow-reviews__empty" role="status">{{ empty_state_text | escape }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "WOW customer reviews",
+  "tag": "div",
+  "class": "wow-reviews-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "max_blocks": 50,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "آراء العملاء"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header alignment",
+      "default": "center",
+      "options": [
+        { "value": "start", "label": "Start" },
+        { "value": "center", "label": "Center" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Rating summary"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_summary",
+      "label": "Show manual rating summary",
+      "default": false,
+      "info": "Enable only after entering values supported by real review data."
+    },
+    {
+      "type": "range",
+      "id": "average_rating",
+      "label": "Average rating",
+      "min": 1,
+      "max": 5,
+      "step": 0.1,
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "reviews_count",
+      "label": "Reviews count",
+      "info": "Enter the verified count only, for example 128. Leave blank to hide."
+    },
+    {
+      "type": "header",
+      "content": "Layout and loading"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Container type",
+      "default": "container",
+      "options": [
+        { "value": "container", "label": "Fixed width" },
+        { "value": "container-fluid", "label": "Fluid width" },
+        { "value": "w-full", "label": "Full width" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "initial_count",
+      "label": "Initial reviews count",
+      "min": 1,
+      "max": 24,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "per_load",
+      "label": "Reviews per load",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "default": "4",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "columns_tablet",
+      "label": "Tablet columns",
+      "default": "2",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Mobile columns",
+      "default": "1",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_spacing",
+      "label": "Vertical card spacing",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Cards"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Review image fit",
+      "default": "natural",
+      "options": [
+        { "value": "natural", "label": "Natural ratio" },
+        { "value": "cover", "label": "Cover (4:3 crop)" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show review dates",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#F5B301"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Section color scheme"
+    },
+    {
+      "type": "color_scheme",
+      "id": "card_color_scheme",
+      "label": "Card color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Interface labels"
+    },
+    {
+      "type": "text",
+      "id": "verified_label_ar",
+      "label": "Verified label — Arabic",
+      "default": "مشتري موثّق"
+    },
+    {
+      "type": "text",
+      "id": "verified_label_en",
+      "label": "Verified label — English",
+      "default": "Verified buyer"
+    },
+    {
+      "type": "text",
+      "id": "load_more_text_ar",
+      "label": "Load more — Arabic",
+      "default": "عرض المزيد"
+    },
+    {
+      "type": "text",
+      "id": "load_more_text_en",
+      "label": "Load more — English",
+      "default": "Load more"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_load_less",
+      "label": "Enable load less button",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "load_less_text_ar",
+      "label": "Load less — Arabic",
+      "default": "عرض أقل"
+    },
+    {
+      "type": "text",
+      "id": "load_less_text_en",
+      "label": "Load less — English",
+      "default": "Show less"
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "customer_name",
+          "label": "Customer name"
+        },
+        {
+          "type": "textarea",
+          "id": "review_text",
+          "label": "Review text"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Verified customer",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "review_date",
+          "label": "Review date",
+          "info": "Optional. Enter the public display text in the appropriate storefront language."
+        },
+        {
+          "type": "image_picker",
+          "id": "customer_avatar",
+          "label": "Customer avatar",
+          "info": "Optional"
+        },
+        {
+          "type": "image_picker",
+          "id": "review_image",
+          "label": "Review image",
+          "info": "Optional. Add useful alt text in Shopify’s media library."
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Related product",
+          "info": "Optional. The product image, name, and link are added automatically."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "WOW customer reviews",
+      "category": "Promotional"
+    }
+  ]
+}
+{% endschema %}

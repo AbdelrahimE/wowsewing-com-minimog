@@ -94,3 +94,70 @@ Countdown QA after a theme update:
 4. Test at 320 px, 375 px, 768 px, and desktop widths.
 5. Confirm the original published theme remains untouched until the new draft
    passes final review.
+
+## Customer reviews masonry section
+
+Purpose:
+
+- Provide a native `WOW customer reviews` section in Shopify's **Add section**
+  menu without editing a JSON template.
+- Render review blocks in a lightweight responsive masonry layout using CSS
+  columns, so text-only cards do not reserve empty image space.
+- Support optional review media, customer avatars, dates, verified status, and
+  related products without rendering empty wrappers for missing content.
+- Reveal reviews progressively with configurable initial and per-click counts.
+  Every review remains in the HTML and visible when JavaScript is unavailable.
+- Switch operational labels between Arabic and English from the active Shopify
+  locale while inheriting RTL/LTR direction and the theme's color schemes and
+  typography.
+
+Custom-owned files (copy these into every upgraded theme):
+
+- `sections/wow-customer-reviews.liquid`
+- `assets/wow-customer-reviews.css`
+- `assets/wow-customer-reviews.js`
+- `CUSTOMIZATIONS.md`
+
+There are no integration points in core theme files. Removing the three
+`wow-customer-reviews` files removes the feature; individual section instances
+can be added or removed through the Theme Editor.
+
+Theme Editor setup:
+
+1. Open the target draft theme and choose **Customize**.
+2. Open the required page template, select **Add section**, then choose
+   **WOW customer reviews**.
+3. Select **Add review** for every genuine customer review. Add only the fields
+   available for that review; blank image, avatar, date, and product fields do
+   not create placeholders.
+4. Enable **Verified customer** only when that status is supported by the
+   store's records.
+5. Configure **Initial reviews count**, **Reviews per load**, and the desktop,
+   tablet, and mobile column selectors under **Layout and loading**.
+6. Keep the manual rating summary disabled until its average and count are
+   supported by real review data.
+
+Localization notes:
+
+- Verified and load-more/load-less labels have separate Arabic and English
+  settings and switch automatically from `request.locale.iso_code`.
+- Rating accessibility labels and manual summary phrasing also switch between
+  Arabic and English automatically.
+- Merchant content such as the heading, description, customer name, review
+  text, and display date belongs to Shopify content. Translate those values
+  with Shopify Translate & Adapt (or another compatible translation workflow)
+  after the final content is entered.
+
+Upgrade and QA workflow:
+
+1. Merge the new vendor theme version on a separate Git branch.
+2. Retain the three isolated `wow-customer-reviews` files; no vendor core file
+   should need conflict resolution for this feature.
+3. Run `shopify theme check` and separately confirm that it reports no offense
+   for `sections/wow-customer-reviews.liquid`.
+4. Upload to an unpublished draft theme only.
+5. Test Arabic RTL and English LTR at 360, 390, 430, 768, 1024, and 1440 px.
+6. Verify natural and cover images, missing optional fields, ratings 1–5,
+   related product links, keyboard focus, load-more batches, optional load-less,
+   multiple section instances, and Theme Editor block selection.
+7. Confirm the published theme is unchanged before considering publication.
