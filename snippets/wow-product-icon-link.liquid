@@ -1,0 +1,45 @@
+{% comment %}
+  WOW Sewing icon-and-link row for the main product section.
+
+  Accepts:
+  - block: Product section block containing the icon, text, URL, and icon size.
+{% endcomment %}
+
+{% liquid
+  assign icon = block.settings.icon
+  assign link_text = block.settings.text | strip
+  assign link_url = block.settings.link
+  assign icon_size_css = block.settings.icon_size | append: 'px'
+%}
+
+{% if icon != blank or link_text != blank %}
+  {{ 'wow-product-icon-link.css' | asset_url | stylesheet_tag }}
+
+  <div
+    class="wow-product-icon-link"
+    style="--wow-product-icon-link-size: {{ block.settings.icon_size }}px;"
+  >
+    {% if icon != blank %}
+      <span class="wow-product-icon-link__icon" aria-hidden="true">
+        {{
+          icon
+          | image_url: width: 128
+          | image_tag:
+            class: 'wow-product-icon-link__image',
+            widths: '24, 32, 40, 48, 64, 96, 128',
+            sizes: icon_size_css,
+            loading: 'lazy',
+            alt: ''
+        }}
+      </span>
+    {% endif %}
+
+    {% if link_text != blank %}
+      {% if link_url != blank %}
+        <a class="wow-product-icon-link__text" href="{{ link_url | escape }}" dir="auto">{{ link_text | escape }}</a>
+      {% else %}
+        <span class="wow-product-icon-link__text" dir="auto">{{ link_text | escape }}</span>
+      {% endif %}
+    {% endif %}
+  </div>
+{% endif %}

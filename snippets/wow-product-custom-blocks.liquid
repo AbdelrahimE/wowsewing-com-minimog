@@ -1,0 +1,13 @@
+{% comment %}
+  Router for WOW Sewing custom blocks inside the main product section.
+
+  Keeping this decision logic outside Minimog's large block renderer avoids
+  increasing that vendor file's Liquid complexity with every custom block.
+{% endcomment %}
+
+{% case block.type %}
+  {% when 'wow_assurances' %}
+    {% render 'wow-product-assurances', block: block %}
+  {% when 'wow_icon_link' %}
+    {% render 'wow-product-icon-link', block: block %}
+{% endcase %}

@@ -1,0 +1,43 @@
+.wow-product-icon-link {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  color: #111;
+  font-family: inherit;
+  line-height: 1.4;
+}
+
+.wow-product-icon-link__icon {
+  display: inline-flex;
+  width: var(--wow-product-icon-link-size, 20px);
+  height: var(--wow-product-icon-link-size, 20px);
+  flex: 0 0 var(--wow-product-icon-link-size, 20px);
+  align-items: center;
+  justify-content: center;
+}
+
+.wow-product-icon-link__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.wow-product-icon-link__text {
+  min-width: 0;
+  color: #111;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  line-height: inherit;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+a.wow-product-icon-link__text:hover,
+a.wow-product-icon-link__text:focus-visible {
+  color: #111;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

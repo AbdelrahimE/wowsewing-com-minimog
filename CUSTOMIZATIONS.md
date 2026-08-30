@@ -188,6 +188,7 @@ Purpose:
 Custom-owned files (copy these into every upgraded theme):
 
 - `snippets/wow-product-assurances.liquid`
+- `snippets/wow-product-custom-blocks.liquid`
 - `assets/wow-product-assurances.css`
 - `CUSTOMIZATIONS.md`
 
@@ -195,8 +196,8 @@ Small integration points to reapply or merge:
 
 - `sections/main-product.liquid`: defines the `wow_assurances` block and its
   merchant-editable settings.
-- `snippets/main-product-blocks.liquid`: renders the isolated snippet for the
-  `wow_assurances` block type.
+- `snippets/main-product-blocks.liquid`: sends WOW-owned block types to the
+  isolated custom-block router.
 
 Theme Editor setup:
 
@@ -219,3 +220,43 @@ Upgrade and QA workflow:
 4. Confirm all four items remain in one row, labels wrap without overflow, and
    icon colors retain sufficient contrast.
 5. Confirm the active theme remains unchanged until the draft passes final QA.
+
+## Product icon-and-link block
+
+Purpose:
+
+- Add a compact, reusable product-information row with a merchant-uploaded
+  icon, editable text, and an optional URL applied to the text.
+- Match the theme shipping-information icon at the default 20 px while
+  allowing the merchant to adjust the icon from 14 to 48 px.
+- Inherit the theme font and page direction, keep the text black, and preserve
+  predictable icon sizing for SVG, PNG, and WebP uploads.
+
+Custom-owned files (copy these into every upgraded theme):
+
+- `snippets/wow-product-icon-link.liquid`
+- `snippets/wow-product-custom-blocks.liquid`
+- `assets/wow-product-icon-link.css`
+- `CUSTOMIZATIONS.md`
+
+Small integration points to reapply or merge:
+
+- `sections/main-product.liquid`: defines the repeatable `wow_icon_link` block.
+- `snippets/main-product-blocks.liquid`: sends WOW-owned block types to the
+  isolated custom-block router without adding another vendor-file branch.
+
+Theme Editor setup:
+
+1. Add **WOW icon and link** to Product information at the required position.
+2. Upload an icon, choose its size, enter the text, and select an internal or
+   external link. When the URL is empty, the text remains visible but is not
+   clickable.
+3. Translate the text setting with Shopify Translate & Adapt when content
+   translation is performed.
+
+Upgrade and QA workflow:
+
+1. Preserve the two custom-owned files and reapply the two small integration
+   points after merging a new Minimog version.
+2. Test the link, keyboard focus, Arabic RTL, English LTR, desktop, and mobile.
+3. Confirm the Shopify code editor reports no Liquid or schema problems.

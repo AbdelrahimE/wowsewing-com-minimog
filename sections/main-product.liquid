@@ -879,6 +879,42 @@
       ]
     },
     {
+      "type": "wow_icon_link",
+      "name": "WOW icon and link",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Upload an icon, enter the link text, and optionally add a URL. The default 20px icon size matches the theme's shipping-information icon."
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "label": "Icon size",
+          "min": 14,
+          "max": 48,
+          "step": 1,
+          "default": 20,
+          "unit": "px"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "اعرف المزيد"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
       "type": "trust_badge",
       "name": "Trust badge",
       "limit": 1,
