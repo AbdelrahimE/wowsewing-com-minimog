@@ -46,6 +46,13 @@
   stroke-width: 1.8;
 }
 
+.wow-product-assurances__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .wow-product-assurances__text {
   display: block;
   min-width: 0;

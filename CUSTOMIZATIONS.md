@@ -182,6 +182,8 @@ Purpose:
 - Use consistent inline SVG icons instead of platform-dependent emoji and
   inherit the product section's RTL/LTR direction and theme color tokens.
 - Expose the four labels as translatable text settings in the Theme Editor.
+- Allow a separate merchant-uploaded image for every assurance while retaining
+  the built-in SVG as a safe fallback when an image is not selected.
 
 Custom-owned files (copy these into every upgraded theme):
 
@@ -202,7 +204,9 @@ Theme Editor setup:
    badge** block.
 2. Add **WOW purchase assurances** in the same position beneath the buy
    buttons and above shipping information.
-3. Translate the four text settings with Shopify Translate & Adapt after the
+3. Optionally upload a separate icon image for each item. Square SVG, PNG, or
+   WebP artwork with transparent backgrounds produces the cleanest result.
+4. Translate the four text settings with Shopify Translate & Adapt after the
    source wording is approved.
 
 Upgrade and QA workflow:
